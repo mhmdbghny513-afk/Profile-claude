@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>محمد بغني</title>
-<link rel="icon" href="data:,">
+<title>محمد بغني · Mohamed Bghni</title>
+<meta name="description" content="Mohamed Bghni — Networks Student at Ghout Al-Shaal College of Computer Technology. Contact & socials.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="محمد بغني · Mohamed Bghni">
+<meta property="og:description" content="طالب شبكات — كلية تقنية الحاسوب غوط الشعال. تواصل معي مباشرة.">
+<meta property="og:image" content="profile.jpg">
+<meta property="og:url" content="https://mhmdbghny513-afk.github.io/Profile-claude/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b08">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -161,12 +169,17 @@
     position: relative;
     display:flex; flex-direction: column;
   }
+  .node-group{ position: relative; }
   .node-row{
     position: relative;
     display:flex; align-items:center; gap:13px;
+    width: 100%;
     padding: 13px 4px;
     text-decoration:none; color: inherit;
     border-radius: 12px;
+    background: none; border: none;
+    font-family: inherit; text-align: inherit;
+    cursor: pointer;
     transition: background var(--dur) ease, transform var(--dur) ease;
   }
   .node-row:active{ transform: scale(0.985); }
@@ -181,8 +194,8 @@
     content:''; position:absolute; top:-13px; bottom:-13px; width:1px;
     background: var(--border);
   }
-  .node-row:first-child .node-track::before{ top: 50%; }
-  .node-row:last-child .node-track::before{ bottom: 50%; }
+  .node-group:first-child .node-track::before{ top: 50%; }
+  .node-group:last-child .node-track::before{ bottom: 50%; }
   .node-dot{
     position: relative; z-index:1;
     width: 9px; height: 9px; border-radius: 50%;
@@ -224,6 +237,37 @@
     width:16px; height:16px;
   }
   [dir="rtl"] .node-go{ transform: scaleX(-1); }
+  .node-go.chevron{ transform: none; transition: transform var(--dur) ease; }
+  [dir="rtl"] .node-go.chevron{ transform: none; }
+  .multi-node.open .chevron{ transform: rotate(180deg); }
+
+  .sub-panel{
+    max-height: 0; overflow: hidden;
+    opacity: 0;
+    padding-inline-start: 51px;
+    transition: max-height 320ms ease, opacity 260ms ease;
+  }
+  .sub-panel.open{
+    max-height: 160px; opacity: 1;
+  }
+  .sub-item{
+    display:flex; align-items:center; gap:10px;
+    padding: 10px 4px;
+    text-decoration:none; color: var(--text);
+    border-radius: 10px;
+    transition: background var(--dur) ease;
+  }
+  .sub-item:hover{ background: var(--surface-hover); }
+  .sub-dot{
+    width:5px; height:5px; border-radius:50%;
+    background: var(--accent); flex-shrink:0;
+    opacity: .8;
+  }
+  .sub-value{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px; font-weight: 500;
+    direction: ltr;
+  }
 
   /* CTA */
   .cta{
@@ -244,6 +288,73 @@
   .cta:hover{ filter: brightness(1.06); }
   .cta:active{ transform: scale(0.98); }
   .cta svg{ width:18px; height:18px; }
+
+  /* Copy-node (Discord username) feedback */
+  .node-row.copy-node{ cursor: pointer; }
+  .node-value.copied{ color: var(--accent); }
+
+  /* Share + QR row */
+  .utility-row{
+    display:flex; gap:10px; margin-top: 22px;
+  }
+  .share-btn{
+    flex: 1;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 13px 14px;
+    border-radius: 12px;
+    font-family:'Cairo', sans-serif;
+    font-size: 13.5px; font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur) ease;
+  }
+  .share-btn:hover{ border-color: var(--border-strong); background: var(--surface-hover); }
+  .share-btn svg{ width:16px; height:16px; flex-shrink:0; }
+
+  .qr-toggle{
+    width: 52px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--dur) ease;
+  }
+  .qr-toggle:hover{ border-color: var(--border-strong); background: var(--surface-hover); }
+  .qr-toggle svg{ width:18px; height:18px; color: var(--text); }
+
+  .qr-panel{
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 380ms ease, opacity 300ms ease, margin 380ms ease;
+    margin-top: 0;
+  }
+  .qr-panel.open{
+    max-height: 260px;
+    opacity: 1;
+    margin-top: 14px;
+  }
+  .qr-card{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .qr-card img{
+    width: 168px; height: 168px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+  }
+  .qr-caption{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-faint);
+  }
 
   .foot{
     text-align:center; margin-top: 22px;
@@ -297,20 +408,43 @@
     <span id="cta-text">حفظ جهة الاتصال</span>
   </button>
 
+  <div class="utility-row">
+    <button class="share-btn" id="share-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      <span id="share-text">مشاركة</span>
+    </button>
+    <button class="qr-toggle" id="qr-toggle" aria-label="QR code">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="17"/><line x1="14" y1="20" x2="14" y2="20.01"/><line x1="17" y1="14" x2="20" y2="14"/><line x1="20" y1="17" x2="17" y2="17"/><line x1="17" y1="20" x2="20" y2="20"/></svg>
+    </button>
+  </div>
+
+  <div class="qr-panel" id="qr-panel">
+    <div class="qr-card">
+      <img id="qr-image" src="" alt="QR code">
+      <div class="qr-caption" id="qr-caption">امسح الرمز للوصول للصفحة</div>
+    </div>
+  </div>
+
   <div class="foot" id="foot-text">MOHAMED BGHNI · TRIPOLI, LIBYA</div>
 </div>
 
 <script>
 // ---------- Content model ----------
 const nodes = [
-  { key:'phone1', label_ar:'هاتف', label_en:'PHONE', value:'0921131848', href:'tel:+218921131848',
-    icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>' },
-  { key:'phone2', label_ar:'هاتف 2', label_en:'PHONE 2', value:'0930161521', href:'tel:+218930161521',
-    icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>' },
+  { key:'phone', label_ar:'هاتف', label_en:'PHONE', icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    type:'multi', preview_ar:'اختر رقم', preview_en:'Choose a number',
+    options:[
+      { value:'0921131848', href:'tel:+218921131848' },
+      { value:'0930161521', href:'tel:+218930161521' }
+    ] },
   { key:'whatsapp', label_ar:'واتساب', label_en:'WHATSAPP', value:'+218 92 113 1848', href:'https://wa.me/218921131848',
     icon:'<path d="M3 21l1.65-4.95A9 9 0 1 1 8.6 19.4L3 21z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1zm5 5a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1h1z" fill="currentColor" stroke="none"/>' },
-  { key:'email', label_ar:'البريد الإلكتروني', label_en:'EMAIL', value:'251345@cctt.edu.ly', href:'mailto:251345@cctt.edu.ly',
-    icon:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>' },
+  { key:'email', label_ar:'البريد الإلكتروني', label_en:'EMAIL', icon:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>',
+    type:'multi', preview_ar:'اختر بريد', preview_en:'Choose an email',
+    options:[
+      { value:'251345@cctt.edu.ly', href:'mailto:251345@cctt.edu.ly' },
+      { value:'mhmdbghny1@gmail.com', href:'mailto:mhmdbghny1@gmail.com' }
+    ] },
   { key:'instagram', label_ar:'انستقرام', label_en:'INSTAGRAM', value:'@x5h7_', href:'https://instagram.com/x5h7_',
     icon:'<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>' },
   { key:'x', label_ar:'اكس', label_en:'X', value:'@BGHN_EY', href:'https://x.com/BGHN_EY',
@@ -319,8 +453,6 @@ const nodes = [
     icon:'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>' },
   { key:'steam', label_ar:'ستيم', label_en:'STEAM', value:'Steam Profile', href:'https://s.team/p/jtvh-nwvh/qbjgkqtn',
     icon:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>' },
-  { key:'discord', label_ar:'ديسكورد', label_en:'DISCORD', value:'Join Server', href:'https://discord.gg/XB764hDW',
-    icon:'<rect x="3" y="6" width="18" height="13" rx="4"/><circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>' },
 ];
 
 const dict = {
@@ -333,7 +465,10 @@ const dict = {
     section:'الاتصال المباشر',
     cta:'حفظ جهة الاتصال',
     foot:'محمد بغني · طرابلس، ليبيا',
-    langBtn:'EN'
+    langBtn:'EN',
+    share:'مشاركة',
+    shared:'تم النسخ ✓',
+    qrCaption:'امسح الرمز للوصول للصفحة'
   },
   en: {
     dir:'ltr', lang:'en',
@@ -344,7 +479,10 @@ const dict = {
     section:'Direct Contact',
     cta:'Save Contact',
     foot:'MOHAMED BGHNI · TRIPOLI, LIBYA',
-    langBtn:'ع'
+    langBtn:'ع',
+    share:'Share',
+    shared:'Copied ✓',
+    qrCaption:'Scan to open this page'
   }
 };
 
@@ -353,17 +491,82 @@ let currentTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 
 
 function renderGraph(){
   const graph = document.getElementById('graph');
-  graph.innerHTML = nodes.map(n => `
-    <a class="node-row" href="${n.href}" target="${n.href.startsWith('http') ? '_blank' : '_self'}" rel="noopener">
+  graph.innerHTML = nodes.map((n, idx) => {
+    if (n.type === 'multi') {
+      const preview = currentLang === 'ar' ? n.preview_ar : n.preview_en;
+      const optionsHtml = n.options.map(o => `
+        <a class="sub-item" href="${o.href}">
+          <span class="sub-dot"></span>
+          <span class="sub-value">${o.value}</span>
+        </a>
+      `).join('');
+      return `
+      <div class="node-group">
+        <button type="button" class="node-row multi-node" data-idx="${idx}">
+          <div class="node-track"><div class="node-dot"></div></div>
+          <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${n.icon}</svg></div>
+          <div class="node-body">
+            <div class="node-label">${currentLang === 'ar' ? n.label_ar : n.label_en}</div>
+            <div class="node-value">${preview}</div>
+          </div>
+          <svg class="node-go chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="sub-panel" id="sub-${idx}">${optionsHtml}</div>
+      </div>
+      `;
+    }
+    const isCopy = !!n.copy;
+    const tag = isCopy ? 'button' : 'a';
+    const attrs = isCopy
+      ? `type="button" data-copy="${n.copy}"`
+      : `href="${n.href}" target="${n.href.startsWith('http') ? '_blank' : '_self'}" rel="noopener"`;
+    const goIcon = isCopy
+      ? '<svg class="node-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>'
+      : '<svg class="node-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+    return `
+    <div class="node-group">
+    <${tag} class="node-row${isCopy ? ' copy-node' : ''}" ${attrs}>
       <div class="node-track"><div class="node-dot"></div></div>
       <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${n.icon}</svg></div>
       <div class="node-body">
         <div class="node-label">${currentLang === 'ar' ? n.label_ar : n.label_en}</div>
-        <div class="node-value">${n.value}</div>
+        <div class="node-value" data-original="${n.value}">${n.value}</div>
       </div>
-      <svg class="node-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-    </a>
-  `).join('');
+      ${goIcon}
+    </${tag}>
+    </div>
+  `;
+  }).join('');
+
+  graph.querySelectorAll('.copy-node').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy');
+      const valueEl = btn.querySelector('.node-value');
+      navigator.clipboard.writeText(text).then(() => {
+        const original = valueEl.getAttribute('data-original');
+        valueEl.textContent = currentLang === 'ar' ? 'تم النسخ ✓' : 'Copied ✓';
+        valueEl.classList.add('copied');
+        setTimeout(() => {
+          valueEl.textContent = original;
+          valueEl.classList.remove('copied');
+        }, 1500);
+      });
+    });
+  });
+
+  graph.querySelectorAll('.multi-node').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.getAttribute('data-idx');
+      const panel = document.getElementById(`sub-${idx}`);
+      const wasOpen = panel.classList.contains('open');
+      graph.querySelectorAll('.sub-panel.open').forEach(p => p.classList.remove('open'));
+      graph.querySelectorAll('.multi-node.open').forEach(b => b.classList.remove('open'));
+      if (!wasOpen) {
+        panel.classList.add('open');
+        btn.classList.add('open');
+      }
+    });
+  });
 }
 
 function applyLang(){
@@ -378,6 +581,8 @@ function applyLang(){
   document.getElementById('foot-text').textContent = d.foot;
   document.getElementById('lang-toggle').textContent = d.langBtn;
   document.getElementById('theme-text').textContent = currentTheme === 'dark' ? d.themeDark : d.themeLight;
+  document.getElementById('share-text').textContent = d.share;
+  document.getElementById('qr-caption').textContent = d.qrCaption;
   renderGraph();
 }
 
@@ -408,10 +613,11 @@ document.getElementById('save-contact').addEventListener('click', () => {
     'TEL;TYPE=CELL:+218921131848',
     'TEL;TYPE=CELL:+218930161521',
     'EMAIL;TYPE=INTERNET:251345@cctt.edu.ly',
+    'EMAIL;TYPE=INTERNET:mhmdbghny1@gmail.com',
     'URL:https://www.facebook.com/profile.php?id=61587985726707',
     'URL:https://instagram.com/x5h7_',
     'URL:https://x.com/BGHN_EY',
-    'NOTE:WhatsApp +218921131848 | Discord: discord.gg/XB764hDW | Steam profile linked',
+    'NOTE:WhatsApp +218921131848',
     'END:VCARD'
   ].join('\r\n');
   const blob = new Blob([vcard], { type: 'text/vcard' });
@@ -423,6 +629,39 @@ document.getElementById('save-contact').addEventListener('click', () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+});
+
+document.getElementById('share-btn').addEventListener('click', async () => {
+  const url = window.location.href;
+  const shareData = {
+    title: 'محمد بغني · Mohamed Bghni',
+    text: currentLang === 'ar' ? 'تواصل معي مباشرة' : 'Get in touch with me',
+    url
+  };
+  if (navigator.share) {
+    try { await navigator.share(shareData); } catch(e) { /* user cancelled */ }
+  } else {
+    try {
+      await navigator.clipboard.writeText(url);
+      const span = document.getElementById('share-text');
+      const original = span.textContent;
+      span.textContent = dict[currentLang].shared;
+      setTimeout(() => { span.textContent = original; }, 1500);
+    } catch(e) {}
+  }
+});
+
+const qrToggle = document.getElementById('qr-toggle');
+const qrPanel = document.getElementById('qr-panel');
+const qrImage = document.getElementById('qr-image');
+let qrLoaded = false;
+qrToggle.addEventListener('click', () => {
+  if (!qrLoaded) {
+    const url = encodeURIComponent(window.location.href);
+    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${url}`;
+    qrLoaded = true;
+  }
+  qrPanel.classList.toggle('open');
 });
 
 applyTheme();
